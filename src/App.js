@@ -16,12 +16,12 @@ function App() {
 			</button>
 			<div className="profile__info">
 				<div className="profile__info-header">
-					<h1 className="profile__title"></h1>
+					<h1 className="profile__title">Жак-Ив-Кусто</h1>
 					<button className="profile__edit-button" type="button">
             <img className="profile__img-pen" src={imagePen} alt="Ручка"/>
           </button>
 				</div>
-				<p className="profile__text"></p>
+				<p className="profile__text">Иследователь океана</p>
 			</div>
 			<button className="profile__add-button" type="button">
         <img className="profile__img-cross" src={imageCross} alt="Крест"/>
