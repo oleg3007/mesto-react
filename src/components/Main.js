@@ -1,25 +1,18 @@
+import React from "react";
 import imagePen from "../images/SVG/Перо.svg";
 import imageCross from "../images/SVG/Крест.svg";
-import App from "./App";
+import Kusto from "../images/Kusto-min.png";
 
-function Main() {
-  function handleEditAvatarClick() {
-    document.querySelector(".popup-avatar").classList.add("popup_active");
-  }
-  function handleEditProfileClick() {
-    document.querySelector(".popup-profile").classList.add("popup_active");
-  }
-  function handleAddPlaceClick() {
-    document.querySelector(".popup-item").classList.add("popup_active");
-  }
+function Main(props) {
   return (
     <main className="main">
       <section className="profile">
-        <button
-          className="profile__avatar-button"
-          onClick={handleEditAvatarClick}
-        >
-          <img className="profile__avatar" src="#" alt="Аватар пользователя" />
+        <button className="profile__avatar-button" onClick={props.onEditAvatar}>
+          <img
+            className="profile__avatar"
+            src={Kusto}
+            alt="Аватар пользователя"
+          />
         </button>
         <div className="profile__info">
           <div className="profile__info-header">
@@ -27,7 +20,7 @@ function Main() {
             <button
               className="profile__edit-button"
               type="button"
-              onClick={handleEditProfileClick}
+              onClick={props.onEditProfile}
             >
               <img className="profile__img-pen" src={imagePen} alt="Ручка" />
             </button>
@@ -37,7 +30,7 @@ function Main() {
         <button
           className="profile__add-button"
           type="button"
-          onClick={handleAddPlaceClick}
+          onClick={props.onAddPlace}
         >
           <img className="profile__img-cross" src={imageCross} alt="Крест" />
         </button>
