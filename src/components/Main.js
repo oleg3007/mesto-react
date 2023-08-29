@@ -1,22 +1,43 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import imagePen from "../images/SVG/Перо.svg";
 import imageCross from "../images/SVG/Крест.svg";
-import Kusto from "../images/Kusto-min.png";
+import api from "../utils/Api";
+import Card from "./Card";
 
 function Main(props) {
+  const [userName, setUserName] = useState("");
+  const [userDescription, setUserDescription] = useState("");
+  const [userAvatar, setUserAvatar] = useState("");
+
+  useEffect(() => {
+    api.getServerUser().then((data) => {
+      setUserName(data.name);
+      setUserDescription(data.about);
+      setUserAvatar(data.avatar);
+    });
+  }, []);
+
+  const [cards, setCards] = useState([]);
+
+  useEffect(() => {
+    api.getServerCards().then((res) => {
+      setCards(res);
+    });
+  }, []);
+
   return (
     <main className="main">
       <section className="profile">
         <button className="profile__avatar-button" onClick={props.onEditAvatar}>
           <img
             className="profile__avatar"
-            src={Kusto}
+            src={`${userAvatar}`}
             alt="Аватар пользователя"
           />
         </button>
         <div className="profile__info">
           <div className="profile__info-header">
-            <h1 className="profile__title">Жак-Ив-Кусто</h1>
+            <h1 className="profile__title">{userName}</h1>
             <button
               className="profile__edit-button"
               type="button"
@@ -25,7 +46,7 @@ function Main(props) {
               <img className="profile__img-pen" src={imagePen} alt="Ручка" />
             </button>
           </div>
-          <p className="profile__text">Иследователь океана</p>
+          <p className="profile__text">{userDescription}</p>
         </div>
         <button
           className="profile__add-button"
@@ -35,7 +56,7 @@ function Main(props) {
           <img className="profile__img-cross" src={imageCross} alt="Крест" />
         </button>
       </section>
-      <section className="elements"></section>
+      <Card cards={cards} onCardClick={props.onCardClick} />
     </main>
   );
 }

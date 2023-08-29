@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
@@ -7,6 +7,7 @@ import PopupWithForm from "./PopupWithForm";
 import PopupAvatar from "./PopupAvatar";
 import PopupProfile from "./PopupProfile";
 import PopupPlace from "./PopupPlace";
+import ImagePopup from "./ImagePopup";
 
 function App() {
   const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = React.useState(false);
@@ -24,10 +25,17 @@ function App() {
   function handleAddPlaceClick() {
     setAddPlacePopupOpen(true);
   }
+
+  const [selectedCard, setSelectedCard] = useState(false);
+  function handleCardClick(res) {
+    setSelectedCard(res);
+  }
+
   function closeAllPopups() {
     setEditAvatarPopupOpen(false);
     setAddPlacePopupOpen(false);
     setEditProfilePopupOpen(false);
+    setSelectedCard(false);
   }
 
   return (
@@ -37,6 +45,7 @@ function App() {
         onEditAvatar={handleEditAvatarClick}
         onEditProfile={handleEditProfileClick}
         onAddPlace={handleAddPlaceClick}
+        onCardClick={handleCardClick}
       />
       <Footer />
       {isEditAvatarPopupOpen && (
@@ -45,6 +54,7 @@ function App() {
           title="Обновить Аватар"
           isOpen={true}
           onClose={closeAllPopups}
+          buttonText={"Сохранить"}
           children={<PopupAvatar />}
         />
       )}
@@ -54,6 +64,7 @@ function App() {
           title="Редактировать профиль"
           isOpen={true}
           onClose={closeAllPopups}
+          buttonText={"Сохранить"}
           children={<PopupProfile />}
         />
       )}
@@ -63,20 +74,12 @@ function App() {
           title="Новое место"
           isOpen={true}
           onClose={closeAllPopups}
+          buttonText={"Создать"}
           children={<PopupPlace />}
         />
       )}
+      <ImagePopup card={selectedCard} onClose={closeAllPopups} />
 
-      <div className="popup popup-image">
-        <div className="popup-image__conteiner">
-          <button
-            className="cros-popup popup-image__cros"
-            type="button"
-          ></button>
-          <img className="popup-image__foto" src="#" alt="" />
-          <p className="popup-image__signature"></p>
-        </div>
-      </div>
       <div className="popup popup-removal">
         <div className="popup-removal__conteiner">
           <button className="popup__cros cros-popup" type="button"></button>
@@ -86,17 +89,6 @@ function App() {
           </button>
         </div>
       </div>
-      <template id="event-card" className="event-card">
-        <article className="element">
-          <div className="element__trash"></div>
-          {/* <img className="element__mask-group" src="#" alt=""> */}
-          <h2 className="element__title"></h2>
-          <div className="element__like">
-            <button className="element__group" type="button"></button>
-            <p className="element__numbers-like">0</p>
-          </div>
-        </article>
-      </template>
     </>
   );
 }

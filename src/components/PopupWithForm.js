@@ -2,12 +2,11 @@ import React from "react";
 
 function PopupWithForm(props) {
   const className = `popup-${props.name}`;
-  const [onClose, setOnClose] = React.useState();
 
   React.useEffect(() => {
     function closurePopupEscape(e) {
       if (e.key === "Escape") {
-        setOnClose(props.onClose);
+        props.onClose();
       }
     }
     document.addEventListener("keydown", closurePopupEscape);
@@ -41,7 +40,7 @@ function PopupWithForm(props) {
             disabled
             onClick={props.onClose}
           >
-            Сохранить
+            {props.buttonText}
           </button>
         </form>
       </div>
