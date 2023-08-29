@@ -11,22 +11,23 @@ import ImagePopup from "./ImagePopup";
 
 function App() {
   const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = React.useState(false);
+  const [isEditProfilePopupOpen, setEditProfilePopupOpen] =
+    React.useState(false);
+  const [isAddPlacePopupOpen, setAddPlacePopupOpen] = React.useState(false);
+  const [selectedCard, setSelectedCard] = useState();
+
   function handleEditAvatarClick() {
     setEditAvatarPopupOpen(true);
   }
 
-  const [isEditProfilePopupOpen, setEditProfilePopupOpen] =
-    React.useState(false);
   function handleEditProfileClick() {
     setEditProfilePopupOpen(true);
   }
 
-  const [isAddPlacePopupOpen, setAddPlacePopupOpen] = React.useState(false);
   function handleAddPlaceClick() {
     setAddPlacePopupOpen(true);
   }
 
-  const [selectedCard, setSelectedCard] = useState(false);
   function handleCardClick(res) {
     setSelectedCard(res);
   }
@@ -35,7 +36,7 @@ function App() {
     setEditAvatarPopupOpen(false);
     setAddPlacePopupOpen(false);
     setEditProfilePopupOpen(false);
-    setSelectedCard(false);
+    setSelectedCard();
   }
 
   return (
@@ -48,36 +49,34 @@ function App() {
         onCardClick={handleCardClick}
       />
       <Footer />
-      {isEditAvatarPopupOpen && (
+      {
         <PopupWithForm
           name="avatar"
           title="Обновить Аватар"
-          isOpen={true}
+          isOpen={isEditAvatarPopupOpen}
           onClose={closeAllPopups}
-          buttonText={"Сохранить"}
           children={<PopupAvatar />}
         />
-      )}
-      {isEditProfilePopupOpen && (
+      }
+      {
         <PopupWithForm
           name="profile"
           title="Редактировать профиль"
-          isOpen={true}
+          isOpen={isEditProfilePopupOpen}
           onClose={closeAllPopups}
-          buttonText={"Сохранить"}
           children={<PopupProfile />}
         />
-      )}
-      {isAddPlacePopupOpen && (
+      }
+      {
         <PopupWithForm
           name="place"
           title="Новое место"
-          isOpen={true}
+          isOpen={isAddPlacePopupOpen}
           onClose={closeAllPopups}
           buttonText={"Создать"}
           children={<PopupPlace />}
         />
-      )}
+      }
       <ImagePopup card={selectedCard} onClose={closeAllPopups} />
 
       <div className="popup popup-removal">

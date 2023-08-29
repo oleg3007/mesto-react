@@ -40,7 +40,7 @@ function PopupWithForm(props) {
             disabled
             onClick={props.onClose}
           >
-            {props.buttonText}
+            {props.buttonText || "Сохранить"}
           </button>
         </form>
       </div>

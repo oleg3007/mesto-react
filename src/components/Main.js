@@ -10,19 +10,25 @@ function Main(props) {
   const [userAvatar, setUserAvatar] = useState("");
 
   useEffect(() => {
-    api.getServerUser().then((data) => {
-      setUserName(data.name);
-      setUserDescription(data.about);
-      setUserAvatar(data.avatar);
-    });
+    api
+      .getServerUser()
+      .then((data) => {
+        setUserName(data.name);
+        setUserDescription(data.about);
+        setUserAvatar(data.avatar);
+      })
+      .catch((error) => console.error(`Ошибка оформлении профиля ${error}`));
   }, []);
 
   const [cards, setCards] = useState([]);
 
   useEffect(() => {
-    api.getServerCards().then((res) => {
-      setCards(res);
-    });
+    api
+      .getServerCards()
+      .then((res) => {
+        setCards(res);
+      })
+      .catch((error) => console.error(`Ошибка отображения карточек ${error}`));
   }, []);
 
   return (

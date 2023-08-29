@@ -29,12 +29,10 @@ function ImagePopup(props) {
           ></button>
           <img
             className="popup-image__foto"
-            src={props.card.link}
-            alt={props.card.name}
+            src={props.card?.link}
+            alt={props.card?.name}
           />
-          <p className="popup-image__signature">
-            {props.card && props.card.name}
-          </p>
+          <p className="popup-image__signature">{props.card?.name}</p>
         </div>
       </div>
     </>
