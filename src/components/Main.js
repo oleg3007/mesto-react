@@ -1,35 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import imagePen from "../images/SVG/Перо.svg";
 import imageCross from "../images/SVG/Крест.svg";
-import api from "../utils/Api";
 import Card from "./Card";
+import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
 function Main(props) {
-  const [userName, setUserName] = useState("");
-  const [userDescription, setUserDescription] = useState("");
-  const [userAvatar, setUserAvatar] = useState("");
-
-  useEffect(() => {
-    api
-      .getServerUser()
-      .then((data) => {
-        setUserName(data.name);
-        setUserDescription(data.about);
-        setUserAvatar(data.avatar);
-      })
-      .catch((error) => console.error(`Ошибка оформлении профиля ${error}`));
-  }, []);
-
-  const [cards, setCards] = useState([]);
-
-  useEffect(() => {
-    api
-      .getServerCards()
-      .then((res) => {
-        setCards(res);
-      })
-      .catch((error) => console.error(`Ошибка отображения карточек ${error}`));
-  }, []);
+  const currentUser = useContext(CurrentUserContext);
 
   return (
     <main className="main">
@@ -37,13 +13,13 @@ function Main(props) {
         <button className="profile__avatar-button" onClick={props.onEditAvatar}>
           <img
             className="profile__avatar"
-            src={`${userAvatar}`}
+            src={`${currentUser.avatar}`}
             alt="Аватар пользователя"
           />
         </button>
         <div className="profile__info">
           <div className="profile__info-header">
-            <h1 className="profile__title">{userName}</h1>
+            <h1 className="profile__title">{currentUser.name}</h1>
             <button
               className="profile__edit-button"
               type="button"
@@ -52,7 +28,7 @@ function Main(props) {
               <img className="profile__img-pen" src={imagePen} alt="Ручка" />
             </button>
           </div>
-          <p className="profile__text">{userDescription}</p>
+          <p className="profile__text">{currentUser.about}</p>
         </div>
         <button
           className="profile__add-button"
@@ -62,7 +38,17 @@ function Main(props) {
           <img className="profile__img-cross" src={imageCross} alt="Крест" />
         </button>
       </section>
-      <Card cards={cards} onCardClick={props.onCardClick} />
+      <section className="elements">
+        {props.cards.map((card) => {
+          return (
+            <Card
+              card={card}
+              onCardClick={props.onCardClick}
+              currentUser={currentUser}
+            />
+          );
+        })}
+      </section>
     </main>
   );
 }
