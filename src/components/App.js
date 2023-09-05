@@ -20,6 +20,46 @@ function App() {
   const [currentUser, setCurrentUser] = useState({});
   const [cards, setCards] = useState([]);
 
+  // Постановка и удаление лайков
+  function handleCardLike(card) {
+    const isLiked = card.likes.some((i) => i._id === currentUser._id);
+    if (!isLiked) {
+      api
+        .putLikeCard(card._id)
+        .then((newCard) => {
+          setCards((state) =>
+            state.map((c) => (c._id === card._id ? newCard : c))
+          );
+        })
+        .catch((error) => console.error(`Ошибка постановки лайка ${error}`));
+    } else {
+      api
+        .deleteLikeCard(card._id)
+        .then((newCard) => {
+          setCards((state) =>
+            state.map((c) => (c._id === card._id ? newCard : c))
+          );
+        })
+        .catch((error) => console.error(`Ошибка удаления лайка ${error}`));
+    }
+  }
+
+  // Удаление карточки
+  function handleCardDelete(card) {
+    const isLiked = card.likes.some((i) => i._id === currentUser._id);
+    if (!isLiked) {
+      api
+        .deleteCard(card._id)
+        .then((newCard) => {
+          setCards((state) =>
+            state.filter((c) => (c._id === card._id ? newCard : c))
+          );
+        })
+        .catch((error) => console.error(`Ошибка удаления карточки ${error}`));
+    }
+  }
+
+  // Загрузка карточек на страницу
   useEffect(() => {
     api
       .getServerCards()
@@ -29,6 +69,7 @@ function App() {
       .catch((error) => console.error(`Ошибка отображения карточек ${error}`));
   }, []);
 
+  // Загрузка данных о пользвателе
   useEffect(() => {
     api
       .getServerUser()
@@ -71,6 +112,8 @@ function App() {
           onAddPlace={handleAddPlaceClick}
           onCardClick={handleCardClick}
           cards={cards}
+          onCardLike={handleCardLike}
+          onCardDelete={handleCardDelete}
         />
         <Footer />
         {

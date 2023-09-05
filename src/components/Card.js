@@ -7,11 +7,19 @@ function Card(props) {
   const cardLikeButtonClassName = `element__group ${
     isLiked && "element__group_color_black"
   }`;
+  function handleLikeClick(card) {
+    props.onCardLike(card);
+  }
+  function handleDeleteClick(card) {
+    props.onCardDelete(card);
+  }
 
   return (
     <>
-      <div className="element" key={card._id}>
-        {isOwn && <div className="element__trash"></div>}
+      <div className="element">
+        {isOwn && (
+          <div className="element__trash" onClick={handleDeleteClick}></div>
+        )}
         <img
           className="element__mask-group"
           src={card.link}
@@ -20,7 +28,11 @@ function Card(props) {
         />
         <h2 className="element__title">{card.name}</h2>
         <div className="element__like">
-          <button className={cardLikeButtonClassName} type="button"></button>
+          <button
+            className={cardLikeButtonClassName}
+            onClick={() => handleLikeClick(card)}
+            type="button"
+          ></button>
           <p className="element__numbers-like">{card.likes.length}</p>
         </div>
       </div>
