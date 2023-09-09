@@ -3,10 +3,9 @@ import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
 import "../index.css";
-import PopupWithForm from "./PopupWithForm";
 import EditAvatarPopup from "./EditAvatarPopup";
 import EditProfilePopup from "./EditProfilePopup";
-import PopupPlace from "./PopupPlace";
+import AddPlacePopup from "./AddPlacePopup";
 import ImagePopup from "./ImagePopup";
 import api from "../utils/Api";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
@@ -46,39 +45,23 @@ function App() {
   }
   // Удаление карточки
   function handleCardDelete(card) {
-    const isLiked = card.likes.some((i) => i._id === currentUser._id);
-    if (!isLiked) {
-      api
-        .deleteCard(card._id)
-        .then((newCard) => {
-          setCards((state) =>
-            state.filter((c) => (c._id === card._id ? newCard : c))
-          );
-        })
-        .catch((error) => console.error(`Ошибка удаления карточки ${error}`));
-    }
-  }
-  // Отправка на сервер запроса PATH о пользователя
-  function handleUpdateUser({ dataName, about }) {
     api
-      .patchToSentProfile({ dataName, about })
-      .then((res) => {
-        setTextButton(true);
-        setCurrentUser(res);
+      .deleteCard(card._id)
+      .then(() => {
+        setCards(cards.filter((c) => c._id !== card._id));
+      })
+      .catch((error) => console.error(`Ошибка удаления карточки ${error}`));
+  }
+  // Создание новых карточек
+  function handleAddPlaceSubmit({ nameCard, link }) {
+    setTextButton(true);
+    api
+      .sendCard({ nameCard, link })
+      .then((newCard) => {
+        setCards([newCard, ...cards]);
       })
       .catch((error) =>
-        console.error(`Ошибка отображения профиля пользователя ${error}`)
-      );
-  }
-  function handleUpdateAvatar({ avatar }) {
-    api
-      .patchToSentAvatar({ avatar })
-      .then((res) => {
-        setTextButton(true);
-        setCurrentUser(res);
-      })
-      .catch((error) =>
-        console.error(`Ошибка отображения аватара пользователя ${error}`)
+        console.error(`Ошибка отображения карточек пользователя ${error}`)
       );
   }
   // Загрузка карточек на страницу
@@ -90,7 +73,30 @@ function App() {
       })
       .catch((error) => console.error(`Ошибка отображения карточек ${error}`));
   }, []);
-
+  // Отправка на сервер запроса PATH о данных пользователя
+  function handleUpdateUser({ dataName, about }) {
+    setTextButton(true);
+    api
+      .patchToSentProfile({ dataName, about })
+      .then((res) => {
+        setCurrentUser(res);
+      })
+      .catch((error) =>
+        console.error(`Ошибка отображения профиля пользователя ${error}`)
+      );
+  }
+  // Отправка на сервер запроса PATH о аватаре пользователя
+  function handleUpdateAvatar({ avatar }) {
+    setTextButton(true);
+    api
+      .patchToSentAvatar({ avatar })
+      .then((res) => {
+        setCurrentUser(res);
+      })
+      .catch((error) =>
+        console.error(`Ошибка отображения аватара пользователя ${error}`)
+      );
+  }
   // Загрузка данных о пользвателе
   useEffect(() => {
     api
@@ -113,6 +119,7 @@ function App() {
 
   function handleAddPlaceClick() {
     setAddPlacePopupOpen(true);
+    setTextButton(false);
   }
 
   function handleCardClick(res) {
@@ -157,13 +164,11 @@ function App() {
           />
         }
         {
-          <PopupWithForm
-            name="place"
-            title="Новое место"
+          <AddPlacePopup
+            onUpdateUser={handleAddPlaceSubmit}
             isOpen={isAddPlacePopupOpen}
             onClose={closeAllPopups}
-            buttonText={"Создать"}
-            children={<PopupPlace />}
+            buttonText={textButton ? "Создать..." : "Создать"}
           />
         }
         <ImagePopup card={selectedCard} onClose={closeAllPopups} />

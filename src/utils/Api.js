@@ -37,11 +37,11 @@ export class Api {
       body: JSON.stringify({ avatar: data.avatar }),
     }).then((res) => this._checkError(res));
   }
-  sendCard(name, link) {
+  sendCard({ nameCard, link }) {
     return fetch(`${this._baseUrl}/cards`, {
       method: "POST",
       headers: this._headers,
-      body: JSON.stringify({ name, link }),
+      body: JSON.stringify({ name: nameCard, link }),
     }).then((res) => this._checkError(res));
   }
   deleteCard(idCard) {

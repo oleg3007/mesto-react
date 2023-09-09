@@ -18,7 +18,10 @@ function Card(props) {
     <>
       <div className="element">
         {isOwn && (
-          <div className="element__trash" onClick={handleDeleteClick}></div>
+          <div
+            className="element__trash"
+            onClick={() => handleDeleteClick(card)}
+          ></div>
         )}
         <img
           className="element__mask-group"
