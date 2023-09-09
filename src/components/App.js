@@ -5,7 +5,7 @@ import Footer from "./Footer";
 import "../index.css";
 import PopupWithForm from "./PopupWithForm";
 import PopupAvatar from "./PopupAvatar";
-import PopupProfile from "./PopupProfile";
+import EditProfilePopup from "./EditProfilePopup";
 import PopupPlace from "./PopupPlace";
 import ImagePopup from "./ImagePopup";
 import api from "../utils/Api";
@@ -57,6 +57,19 @@ function App() {
         })
         .catch((error) => console.error(`Ошибка удаления карточки ${error}`));
     }
+  }
+
+  function handleUpdateUser({ dataName, about }) {
+    // console.log(dataName, about);
+    api
+      .patchToSentProfile({ dataName, about })
+      .then((res) => {
+        console.log(res);
+        setCurrentUser(res);
+      })
+      .catch((error) =>
+        console.error(`Ошибка отображения профиля пользователя ${error}`)
+      );
   }
 
   // Загрузка карточек на страницу
@@ -126,12 +139,10 @@ function App() {
           />
         }
         {
-          <PopupWithForm
-            name="profile"
-            title="Редактировать профиль"
+          <EditProfilePopup
+            onUpdateUser={handleUpdateUser}
             isOpen={isEditProfilePopupOpen}
             onClose={closeAllPopups}
-            children={<PopupProfile />}
           />
         }
         {

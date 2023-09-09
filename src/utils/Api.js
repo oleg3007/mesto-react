@@ -20,13 +20,13 @@ export class Api {
       headers: this._headers,
     }).then((res) => this._checkError(res));
   }
-  patchToSentProfile(data) {
+  patchToSentProfile({ dataName, about }) {
     return fetch(`${this._baseUrl}/users/me`, {
       method: "PATCH",
       headers: this._headers,
       body: JSON.stringify({
-        name: data.name,
-        about: data.about,
+        name: dataName,
+        about,
       }),
     }).then((res) => this._checkError(res));
   }
