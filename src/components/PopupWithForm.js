@@ -40,7 +40,7 @@ function PopupWithForm(props) {
             type="submit"
             onClick={props.onClose}
           >
-            {props.buttonText || "Сохранить"}
+            {props.buttonText}
           </button>
         </form>
       </div>

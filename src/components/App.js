@@ -4,7 +4,7 @@ import Main from "./Main";
 import Footer from "./Footer";
 import "../index.css";
 import PopupWithForm from "./PopupWithForm";
-import PopupAvatar from "./PopupAvatar";
+import EditAvatarPopup from "./EditAvatarPopup";
 import EditProfilePopup from "./EditProfilePopup";
 import PopupPlace from "./PopupPlace";
 import ImagePopup from "./ImagePopup";
@@ -19,6 +19,7 @@ function App() {
   const [selectedCard, setSelectedCard] = useState(null);
   const [currentUser, setCurrentUser] = useState({});
   const [cards, setCards] = useState([]);
+  const [textButton, setTextButton] = useState(false);
 
   // Постановка и удаление лайков
   function handleCardLike(card) {
@@ -43,7 +44,6 @@ function App() {
         .catch((error) => console.error(`Ошибка удаления лайка ${error}`));
     }
   }
-
   // Удаление карточки
   function handleCardDelete(card) {
     const isLiked = card.likes.some((i) => i._id === currentUser._id);
@@ -58,20 +58,29 @@ function App() {
         .catch((error) => console.error(`Ошибка удаления карточки ${error}`));
     }
   }
-
+  // Отправка на сервер запроса PATH о пользователя
   function handleUpdateUser({ dataName, about }) {
-    // console.log(dataName, about);
     api
       .patchToSentProfile({ dataName, about })
       .then((res) => {
-        console.log(res);
+        setTextButton(true);
         setCurrentUser(res);
       })
       .catch((error) =>
         console.error(`Ошибка отображения профиля пользователя ${error}`)
       );
   }
-
+  function handleUpdateAvatar({ avatar }) {
+    api
+      .patchToSentAvatar({ avatar })
+      .then((res) => {
+        setTextButton(true);
+        setCurrentUser(res);
+      })
+      .catch((error) =>
+        console.error(`Ошибка отображения аватара пользователя ${error}`)
+      );
+  }
   // Загрузка карточек на страницу
   useEffect(() => {
     api
@@ -94,10 +103,12 @@ function App() {
 
   function handleEditAvatarClick() {
     setEditAvatarPopupOpen(true);
+    setTextButton(false);
   }
 
   function handleEditProfileClick() {
     setEditProfilePopupOpen(true);
+    setTextButton(false);
   }
 
   function handleAddPlaceClick() {
@@ -130,12 +141,11 @@ function App() {
         />
         <Footer />
         {
-          <PopupWithForm
-            name="avatar"
-            title="Обновить Аватар"
+          <EditAvatarPopup
+            onUpdateUser={handleUpdateAvatar}
             isOpen={isEditAvatarPopupOpen}
             onClose={closeAllPopups}
-            children={<PopupAvatar />}
+            buttonText={textButton ? "Сохранить..." : "Сохранить"}
           />
         }
         {
@@ -143,6 +153,7 @@ function App() {
             onUpdateUser={handleUpdateUser}
             isOpen={isEditProfilePopupOpen}
             onClose={closeAllPopups}
+            buttonText={textButton ? "Сохранить..." : "Сохранить"}
           />
         }
         {
