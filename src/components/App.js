@@ -48,21 +48,23 @@ function App() {
     api
       .deleteCard(card._id)
       .then(() => {
-        setCards(cards.filter((c) => c._id !== card._id));
+        setCards((state) => state.filter((c) => c._id !== card._id));
       })
       .catch((error) => console.error(`Ошибка удаления карточки ${error}`));
   }
   // Создание новых карточек
   function handleAddPlaceSubmit({ nameCard, link }) {
-    setTextButton(true);
     api
       .sendCard({ nameCard, link })
       .then((newCard) => {
-        setCards([newCard, ...cards]);
+        setCards((state) => [newCard, ...state]);
       })
       .catch((error) =>
         console.error(`Ошибка отображения карточек пользователя ${error}`)
-      );
+      )
+      .finally(() => {
+        setTextButton(true);
+      });
   }
   // Загрузка карточек на страницу
   useEffect(() => {
@@ -75,19 +77,21 @@ function App() {
   }, []);
   // Отправка на сервер запроса PATH о данных пользователя
   function handleUpdateUser({ dataName, about }) {
-    setTextButton(true);
     api
       .patchToSentProfile({ dataName, about })
       .then((res) => {
         setCurrentUser(res);
+        closeAllPopups();
       })
       .catch((error) =>
         console.error(`Ошибка отображения профиля пользователя ${error}`)
-      );
+      )
+      .finally(() => {
+        setTextButton(true);
+      });
   }
   // Отправка на сервер запроса PATH о аватаре пользователя
   function handleUpdateAvatar({ avatar }) {
-    setTextButton(true);
     api
       .patchToSentAvatar({ avatar })
       .then((res) => {
@@ -95,7 +99,10 @@ function App() {
       })
       .catch((error) =>
         console.error(`Ошибка отображения аватара пользователя ${error}`)
-      );
+      )
+      .finally(() => {
+        setTextButton(true);
+      });
   }
   // Загрузка данных о пользвателе
   useEffect(() => {
@@ -173,15 +180,6 @@ function App() {
         }
         <ImagePopup card={selectedCard} onClose={closeAllPopups} />
       </CurrentUserContext.Provider>
-      <div className="popup popup-removal">
-        <div className="popup-removal__conteiner">
-          <button className="popup__cros cros-popup" type="button"></button>
-          <h2 className="popup__title popup-removal__title">Вы уверены?</h2>
-          <button className="popup__button popup-removal__button" type="submit">
-            Да
-          </button>
-        </div>
-      </div>
     </>
   );
 }
