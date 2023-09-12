@@ -38,7 +38,6 @@ function PopupWithForm(props) {
           <button
             className={`popup__button popup-${props.name}__button`} //popup__button_disabled
             type="submit"
-            onClick={props.onClose}
           >
             {props.buttonText}
           </button>

@@ -5,12 +5,6 @@ function AddPlacePopup(props) {
   const nameCard = useRef();
   const linkCard = useRef();
 
-  function handleChangeAvatar(evt) {
-    nameCard.current.value = evt.target.value;
-  }
-  function handleChangeAvatar2(evt) {
-    linkCard.current.value = evt.target.value;
-  }
   function handleSubmit(evt) {
     evt.preventDefault();
     props.onUpdateUser({
@@ -42,7 +36,6 @@ function AddPlacePopup(props) {
                   minLength="2"
                   maxLength="30"
                   ref={nameCard}
-                  onChange={handleChangeAvatar}
                   required
                 />
                 <span className="popup__form-input-error popup__form-input-error_field_name"></span>
@@ -54,7 +47,6 @@ function AddPlacePopup(props) {
                   name="link"
                   placeholder="Ссылка на картинку"
                   ref={linkCard}
-                  onChange={handleChangeAvatar2}
                   required
                 />
                 <span className="popup__form-input-error popup__form-input-error_field_link"></span>

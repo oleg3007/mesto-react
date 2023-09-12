@@ -54,16 +54,18 @@ function App() {
   }
   // Создание новых карточек
   function handleAddPlaceSubmit({ nameCard, link }) {
+    setTextButton(true);
     api
       .sendCard({ nameCard, link })
       .then((newCard) => {
         setCards((state) => [newCard, ...state]);
+        closeAllPopups();
       })
       .catch((error) =>
         console.error(`Ошибка отображения карточек пользователя ${error}`)
       )
       .finally(() => {
-        setTextButton(true);
+        setTextButton(false);
       });
   }
   // Загрузка карточек на страницу
@@ -77,6 +79,7 @@ function App() {
   }, []);
   // Отправка на сервер запроса PATH о данных пользователя
   function handleUpdateUser({ dataName, about }) {
+    setTextButton(true);
     api
       .patchToSentProfile({ dataName, about })
       .then((res) => {
@@ -87,21 +90,23 @@ function App() {
         console.error(`Ошибка отображения профиля пользователя ${error}`)
       )
       .finally(() => {
-        setTextButton(true);
+        setTextButton(false);
       });
   }
   // Отправка на сервер запроса PATH о аватаре пользователя
   function handleUpdateAvatar({ avatar }) {
+    setTextButton(true);
     api
       .patchToSentAvatar({ avatar })
       .then((res) => {
         setCurrentUser(res);
+        closeAllPopups();
       })
       .catch((error) =>
         console.error(`Ошибка отображения аватара пользователя ${error}`)
       )
       .finally(() => {
-        setTextButton(true);
+        setTextButton(false);
       });
   }
   // Загрузка данных о пользвателе
@@ -116,17 +121,14 @@ function App() {
 
   function handleEditAvatarClick() {
     setEditAvatarPopupOpen(true);
-    setTextButton(false);
   }
 
   function handleEditProfileClick() {
     setEditProfilePopupOpen(true);
-    setTextButton(false);
   }
 
   function handleAddPlaceClick() {
     setAddPlacePopupOpen(true);
-    setTextButton(false);
   }
 
   function handleCardClick(res) {
@@ -159,7 +161,7 @@ function App() {
             onUpdateUser={handleUpdateAvatar}
             isOpen={isEditAvatarPopupOpen}
             onClose={closeAllPopups}
-            buttonText={textButton ? "Сохранить..." : "Сохранить"}
+            buttonText={textButton ? "Сохранение ..." : "Сохранить"}
           />
         }
         {
@@ -167,7 +169,7 @@ function App() {
             onUpdateUser={handleUpdateUser}
             isOpen={isEditProfilePopupOpen}
             onClose={closeAllPopups}
-            buttonText={textButton ? "Сохранить..." : "Сохранить"}
+            buttonText={textButton ? "Сохранение..." : "Сохранить"}
           />
         }
         {
@@ -175,7 +177,7 @@ function App() {
             onUpdateUser={handleAddPlaceSubmit}
             isOpen={isAddPlacePopupOpen}
             onClose={closeAllPopups}
-            buttonText={textButton ? "Создать..." : "Создать"}
+            buttonText={textButton ? "Добавление..." : "Добавить"}
           />
         }
         <ImagePopup card={selectedCard} onClose={closeAllPopups} />
