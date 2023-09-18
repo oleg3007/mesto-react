@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
+import Register from "./Register";
 import "../index.css";
 import EditAvatarPopup from "./EditAvatarPopup";
 import EditProfilePopup from "./EditProfilePopup";
@@ -146,7 +147,8 @@ function App() {
     <>
       <CurrentUserContext.Provider value={currentUser}>
         <Header />
-        <Main
+        <Register />
+        {/* <Main
           onEditAvatar={handleEditAvatarClick}
           onEditProfile={handleEditProfileClick}
           onAddPlace={handleAddPlaceClick}
@@ -155,7 +157,7 @@ function App() {
           onCardLike={handleCardLike}
           onCardDelete={handleCardDelete}
         />
-        <Footer />
+        <Footer /> */}
         {
           <EditAvatarPopup
             onUpdateUser={handleUpdateAvatar}

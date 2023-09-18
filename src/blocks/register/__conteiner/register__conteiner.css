@@ -1,0 +1,11 @@
+.register__conteiner {
+  display: flex;
+  flex-direction: column;
+  width: 358px;
+  margin: 0 auto 0;
+}
+@media screen and (max-width: 500px) {
+  .register__conteiner {
+    width: 260px;
+  }
+}

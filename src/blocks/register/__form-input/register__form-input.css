@@ -1,0 +1,15 @@
+.register__form-input {
+  background-color: #000;
+  border: 0 none;
+  width: 100%;
+  box-sizing: border-box;
+  font-size: 14px;
+  line-height: 17px;
+  padding-bottom: 9px;
+  border-bottom: 1px solid #ccc;
+  margin: 0 auto 30px;
+  color: #CCC;
+}
+.register__form-input:focus {
+  outline: none
+}
