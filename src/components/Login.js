@@ -1,14 +1,10 @@
 import AuthenticationUsingForm from "./AuthenticationUsingForm";
-function Register() {
+
+function Login() {
   return (
     <AuthenticationUsingForm
-      title="Регистрация"
-      buttonText="Зарегистрироваться"
-      link={
-        <a className="register__link" href="#">
-          Уже зарегистрированы? Войти
-        </a>
-      }
+      title="Вход"
+      buttonText="Войти"
       children={
         <>
           <input
@@ -27,4 +23,4 @@ function Register() {
   );
 }
 
-export default Register;
+export default Login;

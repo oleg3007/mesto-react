@@ -65,3 +65,9 @@
 @import url(./blocks/popup-removal/__button/popup-removal__button.css);
 
 @import url(./blocks/popap-avatar/__conteiner/popup-avatar__conteiner.css);
+
+@import url(./blocks/popup-registration/__img/popup-registration__img.css);
+@import url(./blocks/popup-registration/popup-registration.css);
+@import url(./blocks/popup-registration/__text/popup-registration__text.css);
+
+

@@ -3,6 +3,8 @@ import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
 import Register from "./Register";
+import Login from "./Login";
+import InfoTooltip from "./InfoTooltip";
 import "../index.css";
 import EditAvatarPopup from "./EditAvatarPopup";
 import EditProfilePopup from "./EditProfilePopup";
@@ -147,7 +149,8 @@ function App() {
     <>
       <CurrentUserContext.Provider value={currentUser}>
         <Header />
-        <Register />
+        <Login />
+        {/* <Register /> */}
         {/* <Main
           onEditAvatar={handleEditAvatarClick}
           onEditProfile={handleEditProfileClick}
@@ -183,6 +186,7 @@ function App() {
           />
         }
         <ImagePopup card={selectedCard} onClose={closeAllPopups} />
+        <InfoTooltip />
       </CurrentUserContext.Provider>
     </>
   );

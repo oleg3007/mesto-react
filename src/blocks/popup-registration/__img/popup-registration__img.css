@@ -1,0 +1,11 @@
+.popup-registration__img {
+  width: 120px;
+  height: 120px;
+  flex-shrink: 0;
+  margin: 60px auto 32px;
+}
+@media screen and (max-width: 540px) {
+  .popup-registration__img {
+    margin: 50px auto 40px;
+  }
+}

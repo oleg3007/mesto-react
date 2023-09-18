@@ -1,17 +1,17 @@
-function AuthenticationUsingForm() {
+function AuthenticationUsingForm(props) {
   return (
-    <>
-      <input
-        className="register__form-input"
-        type="email"
-        placeholder="Email"
-      ></input>
-      <input
-        className="register__form-input"
-        type="password"
-        placeholder="Пароль"
-      ></input>
-    </>
+    <div className="register">
+      <div className="register__conteiner">
+        <h2 className="register__title">{props.title}</h2>
+        <form>
+          {props.children}
+          <button className="register__button" type="submit">
+            {props.buttonText}
+          </button>
+          {props.link}
+        </form>
+      </div>
+    </div>
   );
 }
 
