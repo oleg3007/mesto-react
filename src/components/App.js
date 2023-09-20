@@ -186,7 +186,7 @@ function App() {
           />
         }
         <ImagePopup card={selectedCard} onClose={closeAllPopups} />
-        {/* <InfoTooltip /> */}
+        <InfoTooltip />
       </CurrentUserContext.Provider>
     </>
   );
