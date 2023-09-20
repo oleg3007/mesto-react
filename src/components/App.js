@@ -149,9 +149,9 @@ function App() {
     <>
       <CurrentUserContext.Provider value={currentUser}>
         <Header />
-        <Login />
+        {/* <Login /> */}
         {/* <Register /> */}
-        {/* <Main
+        <Main
           onEditAvatar={handleEditAvatarClick}
           onEditProfile={handleEditProfileClick}
           onAddPlace={handleAddPlaceClick}
@@ -160,7 +160,7 @@ function App() {
           onCardLike={handleCardLike}
           onCardDelete={handleCardDelete}
         />
-        <Footer /> */}
+        <Footer />
         {
           <EditAvatarPopup
             onUpdateUser={handleUpdateAvatar}
@@ -186,7 +186,7 @@ function App() {
           />
         }
         <ImagePopup card={selectedCard} onClose={closeAllPopups} />
-        <InfoTooltip />
+        {/* <InfoTooltip /> */}
       </CurrentUserContext.Provider>
     </>
   );
